@@ -5,6 +5,7 @@ import { Audio } from 'expo-av';
 import { ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
 import { Alert } from 'react-native';
 
 
@@ -157,14 +158,14 @@ const DiaryScreen = () => {
   
         <Text style={styles.label}>Audio:</Text>
         <Button
-          style={styles.buttonMargin}
+          
           title={recording ? 'Detener Grabación' : 'Iniciar Grabación'}
           onPress={handleRecordAudio}
           color="#4CAF50"
         />
         {audio && (
           <View style={styles.buttonContainer}>
-            <Button title="Reproducir Audio" onPress={playAudio} style={styles.buttonMargin} />
+            <Button title="Reproducir Audio" onPress={playAudio} />
             <Button
               title="Borrar Audio"
               onPress={() => {
@@ -185,7 +186,7 @@ const DiaryScreen = () => {
                 );
               }}
               color="red"
-              style={styles.buttonMargin}
+              
             />
           </View>
         )}
