@@ -41,16 +41,23 @@ const DiaryScreen = () => {
     }
   };
 
-  
+
   // Función para crear un nuevo objeto de grabación
   const createNewRecordingObject = async () => {
     recordingObject.current = new Audio.Recording();
     await recordingObject.current.prepareToRecordAsync(
       Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
-    );
+      );
   };
-  // Función para grabar audio
+// Función para grabar audio
   const handleRecordAudio = async () => {
+    const { status } = await Audio.requestPermissionsAsync();
+  
+    if (status !== 'granted') {
+      alert('Se requieren permisos para grabar audio y acceder al micrófono.');
+      return;
+    }
+  
     if (!recording) {
       try {
         await createNewRecordingObject();
@@ -70,8 +77,8 @@ const DiaryScreen = () => {
       }
     }
   };
-
-  // Función para borrar el audio grabado
+  
+// Función para borrar el audio grabado
   const handleBorrarAudio = () => {
     if (recordingObject.current) {
       recordingObject.current.stopAndUnloadAsync();
@@ -81,7 +88,7 @@ const DiaryScreen = () => {
     setRecording(false);
   };
 
-  // Función para reproducir el audio seleccionado
+// Función para reproducir el audio seleccionado
   const playAudio = async () => {
     if (audio) {
       const { sound } = await Audio.Sound.createAsync({ uri: audio });
@@ -158,7 +165,7 @@ const DiaryScreen = () => {
   
         <Text style={styles.label}>Audio:</Text>
         <Button
-          
+
           title={recording ? 'Detener Grabación' : 'Iniciar Grabación'}
           onPress={handleRecordAudio}
           color="#4CAF50"
@@ -186,7 +193,7 @@ const DiaryScreen = () => {
                 );
               }}
               color="red"
-              
+
             />
           </View>
         )}
@@ -195,7 +202,7 @@ const DiaryScreen = () => {
       </View>
     </ScrollView>
   );
-  
+
 };
 
 const styles = StyleSheet.create({
@@ -214,7 +221,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 
     justifyContent: 'center',
-    
+
     margin: 16,
   },
   label: {
@@ -233,7 +240,7 @@ const styles = StyleSheet.create({
   },
   textArea: {
     height: 100,
-    
+
   },
   image: {
     width: 200,
